@@ -2,7 +2,7 @@
 ## Detector de Semáforos
 ---
 # Equipe
-## *Gustavo Ferreira Palma
+## Gustavo Ferreira Palma
 ---
 # Dataset
 LISA Triffic Light Dataset [https://www.kaggle.com/datasets/mbornoe/lisa-traffic-light-dataset]
