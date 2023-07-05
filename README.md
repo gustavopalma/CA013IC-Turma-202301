@@ -15,6 +15,10 @@ O presente projeto tem por objetivo localizar e identificar semáforos em imagen
 
 ---
 
+# Repositório do Projeto
+O Projeto pode ser acessado através deste (link) [https://github.com/gustavopalma/CA013IC-Turma-202301/tree/main], através do branch 'main'. 
+Existe ainda um branch 'main-dataset', onde o dataset também está disponível
+
 # Classificadores e Acurácia
 Durante o desenvolvimento do projeto foram testados diferentes classificadores, permanecendo apenas o Classificador SVM na versão final, já que este obteve a melhor acurácia:
 Testando Classificador - Reporte do SVM
