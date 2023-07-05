@@ -16,17 +16,14 @@ from sklearn.metrics import ConfusionMatrixDisplay
 from alive_progress import alive_bar
 
 
-target_classes = ["go", "stop", "warning"]
-color_map = {"go" : "green", "stop" : "red", "warning" : "yellow"}
-rgb_color_map = {"go" : (0, 255, 0), "stop": (255, 0, 0), "warning": (255, 255, 0)}
+classes_alvo = ["go", "stop", "warning"]
+cores = {"go" : "green", "stop" : "red", "warning" : "yellow"}
+rgb_cores = {"go" : (0, 255, 0), "stop": (255, 0, 0), "warning": (255, 255, 0)}
 
 #total de imagens utilizadas para normalizar o dataset
 n_samples_per_class = 1000
 
-train_folder_list = [
-    "dayTrain",
-    "nightTrain"
-]
+train_folder_list = ["dayTrain","nightTrain"]
 
 def arquivo_existe(arquivo):
     if os.path.isfile(arquivo):
@@ -57,7 +54,7 @@ def ler_dataset(cenarios_teste):
         df = pd.concat(annotation_list)
         df = df.drop(['Origin file', 'Origin frame number', 'Origin track', 'Origin track frame number'], axis=1)
         df.columns = ['filename', 'target', 'x1', 'y1', 'x2', 'y2', 'image_path']
-        df = df[df['target'].isin(target_classes)]
+        df = df[df['target'].isin(classes_alvo)]
         df['filename'] = df['filename'].apply(lambda filename: re.findall("\/([\d\w-]*.jpg)", filename)[0])
         df = df.drop_duplicates().reset_index(drop=True)
     return df
@@ -87,7 +84,7 @@ def crop_semaforo(df):
 def undersample_dataset(annotation_df, n_samples):
     print("Fazendo Undersampling do Dataset")
     df_resample_list = list()
-    for target in target_classes:
+    for target in classes_alvo:
         df = annotation_df[annotation_df['target'] == target].copy()
         df_r = resample(df, n_samples=n_samples, random_state=42)
         df_resample_list.append(df_r)
@@ -133,11 +130,11 @@ def convert_to_vector(binary_img_values, annotation_df):
 if __name__ == "__main__":
     train_annotation_df = ler_dataset(train_folder_list)
 
-    target_classes = train_annotation_df['target'].unique()
-    target_classes.sort()
+    classes_alvo = train_annotation_df['target'].unique()
+    classes_alvo.sort()
     
     index, counts = np.unique(train_annotation_df['target'], return_counts=True)
-    colors = [color_map[target] for target in index]
+    colors = [cores[target] for target in index]
     plt.bar(index, counts, color=colors)
     plt.legend(loc="best")
     plt.title('Total de tipos de Imagens no Dataset')
@@ -145,7 +142,7 @@ if __name__ == "__main__":
 
     train_annotation_df = undersample_dataset(train_annotation_df, n_samples_per_class)
     index, counts = np.unique(train_annotation_df['target'], return_counts=True)
-    colors = [color_map[target] for target in index]
+    colors = [cores[target] for target in index]
     plt.bar(index, counts, color=colors)
     plt.legend(loc="best")
     plt.title('Total de tipos de Imagens no Após Undersampling (1000 Amostras)')
@@ -154,7 +151,7 @@ if __name__ == "__main__":
     img_values = crop_semaforo(train_annotation_df)
     
     samples_imgs = dict()
-    for target in target_classes:
+    for target in classes_alvo:
         index = train_annotation_df[train_annotation_df['target'] == target].index[0]
         img = img_values[index]
         samples_imgs[target] = img
@@ -162,7 +159,7 @@ if __name__ == "__main__":
     binary_img_values = bin_images(img_values)
 
     samples_imgs = dict()
-    for target in target_classes:
+    for target in classes_alvo:
         index = train_annotation_df[train_annotation_df['target'] == target].index[0]
         img = binary_img_values[index]
         samples_imgs[target] = img
@@ -178,10 +175,10 @@ if __name__ == "__main__":
     y_r = pd.Series(y.values.ravel())
 
     plt.figure(figsize=(10,8))
-    for target in target_classes:
+    for target in classes_alvo:
         plt.scatter(X_r[y_r == target, 0], 
                     X_r[y_r == target, 1], 
-                    color=color_map[target], alpha=.8, label=target)
+                    color=cores[target], alpha=.8, label=target)
     plt.legend(loc="best")
     plt.title('PCA')
     plt.show()
