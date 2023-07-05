@@ -28,7 +28,7 @@ Testando Classificador - Reporte do SVM
     macro avg       0.99      0.99      0.99       900
     weighted avg       0.99      0.99      0.99       900
 
-![Matriz de Confusão](cf.png)
+![Matriz de Confusão](https://github.com/gustavopalma/CA013IC-Turma-202301/blob/main/cf.png)
 
 ---
 
@@ -40,7 +40,7 @@ O Projeto foi baseado essencialmente em Python 3, openCV e Scikit Learn. Para a 
 
 Devido ao Tamanho do dataset, este não foi utilizado em sua totalidade, apenas algumas pastas foram selecionadas e armazenadas no projeto. Após o Download do Dataset, considerar apenas as pastas 'dayTrain' e 'nightTrain', juntamente com suas pastas 'Annotations', a estrutura do dataset para a execução do projeto deve ser:
 
-![Estrutura do Dataset](data_set_struct.png)
+![Estrutura do Dataset](https://github.com/gustavopalma/CA013IC-Turma-202301/blob/main/data_set_struct.png)
 
 Para a execução das rotinas de treino e teste, basta executar o arquivo 'main.py'.
 

@@ -28,6 +28,13 @@ train_folder_list = [
     "nightTrain"
 ]
 
+def arquivo_existe(arquivo):
+    if os.path.isfile(arquivo):
+        return True
+    else:
+        print("Arquivo Inexistente")
+        return False
+
 def ler_dataset(cenarios_teste):
     caminho_dataset = "dataset"
     caminho_annotation = "dataset" + os.sep + "Annotations"
@@ -40,6 +47,9 @@ def ler_dataset(cenarios_teste):
         if 'Clip' in os.listdir(caminho_annotation_folder)[0]:
             clip_list = os.listdir(caminho_annotation_folder)
             for clip_folder in clip_list:
+                if not arquivo_existe(caminho_annotation_folder + os.sep + clip_folder + os.sep + "frameAnnotationsBOX.csv") :
+                    print("Arquivo não encontrado")
+                    exit(1)
                 df = pd.read_csv(caminho_annotation_folder + os.sep + clip_folder + os.sep + "frameAnnotationsBOX.csv", sep=";")
                 df["image_path"] = caminho_dataset + os.sep  + folder + os.sep + clip_folder + os.sep + "frames" + os.sep
                 annotation_list.append(df)
@@ -63,6 +73,9 @@ def crop_semaforo(df):
             name = row["filename"]
             x1, x2, y1, y2 = row["x1"], row["x2"], row["y1"], row["y2"]
             print(image_path + name)
+            if not arquivo_existe(image_path + name) :
+                    print("Arquivo não encontrado")
+                    exit(1)
             img = cv2.imread(image_path + name)
             cropped_img = img[y1:y2, x1:x2]
             cropped_img = cv2.cvtColor(cropped_img, cv2.COLOR_BGR2RGB)
